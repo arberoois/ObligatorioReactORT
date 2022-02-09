@@ -4,6 +4,10 @@ import Logo from "../../assets/travelLogo.jpg";
 import { Link } from "react-router-dom";
 
 const Index = () => {
+  const handleSignOff = () => {
+    localStorage.removeItem("apikey");
+    window.location.reload();
+  };
   return (
     <header className="header">
       <img src={Logo} alt="Logo Agencia" />
@@ -21,9 +25,14 @@ const Index = () => {
         </ul>
       </nav>
       <div className="actions">
-        <Link to="/register">Registro</Link>
-        <Link to="/login">Iniciar Sesión</Link>
-        <button>Cerrar Sesión</button>
+        {localStorage.getItem("apikey") ? (
+          <button onClick={handleSignOff}>Cerrar Sesión</button>
+        ) : (
+          <>
+            <Link to="/register">Registro</Link>
+            <Link to="/login">Iniciar Sesión</Link>
+          </>
+        )}
       </div>
     </header>
   );

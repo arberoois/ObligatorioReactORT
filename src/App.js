@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Error from "./components/Error";
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Header />
@@ -17,6 +17,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;
