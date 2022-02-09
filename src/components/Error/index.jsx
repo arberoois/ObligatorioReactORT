@@ -4,7 +4,7 @@ import "./index.css";
 const Index = () => {
   return (
     <div className="error404">
-      <p>Error 404</p>
+      <h1>Error 404</h1>
       <Link to="/">Volver al Inicio</Link>
     </div>
   );

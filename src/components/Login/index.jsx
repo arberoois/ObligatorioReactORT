@@ -10,7 +10,6 @@ const Index = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(name, password);
     if (name.trim() === "" || password.trim() === "") {
       toast.error("Usuario y contraseña son requeridos.", {
         autoClose: 3000,
@@ -23,12 +22,12 @@ const Index = () => {
       };
       const response = await login(data);
       if (response.codigo === 200) {
-        toast.success("Bienvenido!", {
-          autoClose: 3000,
-        });
         localStorage.setItem("apikey", response.apiKey);
         navigate("/");
         window.location.reload();
+        toast.success("Bienvenido!", {
+          autoClose: 3000,
+        });
       } else {
         toast.error(response.mensaje, {
           autoClose: 3000,
