@@ -39,7 +39,7 @@ const Index = () => {
     <>
       <div className="register">
         <h1>Registro </h1>
-        <form>
+        <form onSubmit={handleRegister}>
           <input
             onChange={(e) => setName(e.target.value)}
             type="text"
@@ -54,7 +54,7 @@ const Index = () => {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-          <button onClick={handleRegister}>Registrarme</button>
+          <button>Registrarme</button>
         </form>
       </div>
       <Toaster />

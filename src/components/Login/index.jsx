@@ -23,6 +23,7 @@ const Index = () => {
       const response = await login(data);
       if (response.codigo === 200) {
         localStorage.setItem("apikey", response.apiKey);
+        localStorage.setItem("userid", response.id);
         navigate("/");
         window.location.reload();
         toast.success("Bienvenido!", {
@@ -41,7 +42,7 @@ const Index = () => {
     <>
       <div className="login">
         <h1>Inicio de Sesión </h1>
-        <form>
+        <form onSubmit={handleLogin}>
           <input
             onChange={(e) => setName(e.target.value)}
             type="text"
@@ -56,7 +57,7 @@ const Index = () => {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />
-          <button onClick={handleLogin}>Iniciar Sesión</button>
+          <button>Iniciar Sesión</button>
         </form>
       </div>
       <Toaster />
