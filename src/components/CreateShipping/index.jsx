@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { getDistance } from 'geolib';
 import { crearEnvio } from "../../api/data"
+import toast, { Toaster } from 'react-hot-toast';
 
 const Index = () => {
-
-    const [envio, setEnvio] = useState({})
+    const [envio, setEnvio] = useState({ peso: 0, idCategoria: 'Z', idCiudadOrigen: 'X', idCiudadDestino: 'Y' })
 
     const calcularCosto = (p, d) => {
-        var prec = 50
+        let prec = 50
         // Hacer cálculo del precio total
         // Consultar profe que se hace si pesa 300 gramos, se redondea a 1kg igual?
         const pesoRedond = Math.round(p)
@@ -18,7 +18,7 @@ const Index = () => {
         return prec
     }
 
-    const handleEnvio = (e) => {
+    const handleEnvio = async (e) => {
         e.preventDefault()
         // TODO: Hacer búsqueda de las ciudades seleccionadas para obtener ubicación
         // Hacer llamada a la API para obtener distancia, la API devuelve metros
@@ -50,70 +50,66 @@ const Index = () => {
             "bandera": 1,
             "wikiDataId": "Q946150"
         }
+        if (envio.idCiudadOrigen === 'X' || envio.idCiudadDestino === 'Y' || envio.idCategoria === 'Z' || envio.peso <= 0) {
+            toast.error('Todos los campos son obligatorios')
+            return
+        }
         const distancia = getDistance({ latitude: cO.latitud, longitude: cO.longitud }, { latitude: cD.latitud, longitude: cD.longitud }) / 100
         const precio = calcularCosto(envio.peso, distancia)
         const idUsuario = localStorage.getItem("userid")
-        console.log(idUsuario, precio, distancia)
-        // Ver porque no está cargando los nuevos atributos
-        setEnvio({ ...envio, idUsuario: idUsuario })
-        setEnvio({ ...envio, precio: precio })
-        setEnvio({ ...envio, distancia: distancia })
-        console.log(envio)
+        setEnvio({ ...envio, distancia, precio, idUsuario })
 
-        // Formato final del envío
-        // {
-        // "idUsuario": 87,
-        // "idCiudadOrigen": 129771,
-        // "idCiudadDestino": 129773,
-        // "peso": 4,
-        // "distancia": 2.32,
-        // "precio": 43.56,
-        // "idCategoria": 5
-        // }
+        const objetito = {
+            ...envio, distancia: distancia, precio, idUsuario
+        }
+        console.log('Objetito', objetito)
 
-        // const envioCreado = crearEnvio(envio)
-        //Formato de lo que devuelve
-        // {
-        // "idEnvio": 141,
-        // "mensaje": "Envío ingresado con éxito",
-        // "codigo": 200
-        // }
+        const envioCreado = await crearEnvio(objetito)
+        if (envioCreado.codigo === 200) {
+            toast.success(`${envioCreado.mensaje}, número del envío: ${envioCreado.idEnvio}`)
+        } else {
+            toast.error(`${envioCreado.mensaje}`)
+        }
+        console.log('Envio creado:', envioCreado)
     }
 
-    return <div>
-        <h1>
-            Ingresar un envío
-        </h1>
-
-        <form onSubmit={handleEnvio}>
+    return (
+        <>
             <div>
-                <label>Ciudad de origen:</label>
-                <select name="idCiudadOrigen" onChange={(e) => setEnvio({ ...envio, [e.target.name]: e.target.value })} >
-                    <option value="" selected disabled hidden>Seleccionar...</option>
-                    <option value="J">J</option>
-                </select>
-            </div>
-            <div>
-                <label>Ciudad de destino:</label>
-                <select onChange={(e) => setEnvio({ ...envio, [e.target.name]: e.target.value })} name="idCiudadDestino">
-                    <option value="" selected disabled hidden>Seleccionar...</option>
-                    <option value="N">N</option>
-                </select>
-            </div>
-            <div>
-                <label>Categoría:</label>
-                <select onChange={(e) => setEnvio({ ...envio, [e.target.name]: e.target.value })} name="idCategoria">
-                    <option value="" selected disabled hidden>Seleccionar...</option>
-                    <option value="Q">Q</option>
-                </select>
-            </div>
-            <div>
-                <label>Peso del paquete:</label>
-                <input onChange={(e) => setEnvio({ ...envio, [e.target.name]: e.target.value })} name="peso" type="number" placeholder='peso en kilogramos' />
-            </div>
-            <button>Enviar</button>
-        </form>
-    </div >;
+                <h1>
+                    Ingresar un envío
+                </h1>
+                <form >
+                    <div>
+                        <label>Ciudad de origen:</label>
+                        <select onChange={(e) => setEnvio({ ...envio, [e.target.name]: e.target.value })} name="idCiudadOrigen">
+                            <option value="X" selected disabled hidden>Seleccionar...</option>
+                            <option value="J">J</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Ciudad de destino:</label>
+                        <select onChange={(e) => setEnvio({ ...envio, [e.target.name]: e.target.value })} name="idCiudadDestino">
+                            <option value="Y" selected disabled hidden>Seleccionar...</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Categoría:</label>
+                        <select onChange={(e) => setEnvio({ ...envio, [e.target.name]: e.target.value })} name="idCategoria">
+                            <option value="Z" selected disabled hidden>Seleccionar...</option>
+                            <option value="Q">Q</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Peso del paquete:</label>
+                        <input onChange={(e) => setEnvio({ ...envio, [e.target.name]: e.target.value })} name="peso" type="number" placeholder='peso en kilogramos' />
+                    </div>
+                    <button onClick={handleEnvio} >Enviar</button>
+                </form>
+            </div >
+            <Toaster></Toaster>
+        </>)
 };
 
 export default Index;
