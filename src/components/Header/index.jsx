@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 const Index = () => {
   const handleSignOff = () => {
     localStorage.removeItem("apikey");
+    localStorage.removeItem("userid");
     window.location.reload();
   };
   return (

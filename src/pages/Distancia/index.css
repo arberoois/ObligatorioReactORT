@@ -1,0 +1,57 @@
+.distance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.distance form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 10px;
+}
+
+.distance form div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  background-color: #fff;
+  padding: 5px;
+}
+
+.distance form div label {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.distance form div select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.distance form button {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #ffedd7;
+  color: #000;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.distance form button:hover {
+  background-color: #ffe4c4;
+}

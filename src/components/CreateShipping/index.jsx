@@ -97,8 +97,8 @@ const Index = () => {
 
   return (
     <>
+      <h1 style={{ margin: "40px", textAlign: "center" }}>Ingresar un envío</h1>
       <div className="create-shipping">
-        <h1>Ingresar un envío</h1>
         <form>
           <div>
             <label>Ciudad de origen:</label>

@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Shipments from "./pages/Shipments";
@@ -9,6 +10,14 @@ import Register from "./components/Register";
 import Error from "./components/Error";
 
 const App = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("apikey");
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
   return (
     <div className="App">
       <Header />

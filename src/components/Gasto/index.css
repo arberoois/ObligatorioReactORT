@@ -1,0 +1,24 @@
+.gasto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: bisque;
+  border-radius: 10px;
+  padding: 10px;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.gasto p {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+}
+
+.gasto a {
+  text-decoration: none;
+  color: rgb(184, 43, 43);
+  font-size: 20px;
+  font-weight: bold;
+}
