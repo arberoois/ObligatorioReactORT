@@ -1,0 +1,27 @@
+.envio {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+  text-align: center;
+  background-color: #eee;
+}
+
+.envio p {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.envio button {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #ffedd7;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.envio button:hover {
+  background-color: #ffd7b5;
+}

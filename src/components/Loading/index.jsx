@@ -1,9 +1,9 @@
 import React from "react";
 import "./index.css";
-const Index = () => {
+const Index = ({ texto }) => {
   return (
     <div className="loading">
-      <h1>Cargando...</h1>
+      <h1>{texto}</h1>
     </div>
   );
 };
