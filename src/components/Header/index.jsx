@@ -19,9 +19,8 @@ const Index = () => {
           <li>
             <Link to="/lista-envios">Lista de Envíos</Link>
           </li>
-
           <li>
-            <Link to="/">Viajes</Link>
+            <Link to="/distancia">Calculo de distancias</Link>
           </li>
         </ul>
       </nav>
