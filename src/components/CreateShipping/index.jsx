@@ -20,7 +20,6 @@ const Index = () => {
     const pesoRedond = Math.round(p);
     prec += pesoRedond * 10;
     const distRedond = Math.round(d / 100);
-    console.log("Dist redond:", distRedond);
     prec += distRedond * 50;
     return prec;
   };
@@ -81,7 +80,6 @@ const Index = () => {
       precio,
       idUsuario,
     };
-    console.log("Objetito", objetito);
 
     const envioCreado = await crearEnvio(objetito);
     if (envioCreado.codigo === 200) {
@@ -92,7 +90,6 @@ const Index = () => {
     } else {
       toast.error(`${envioCreado.mensaje}`);
     }
-    console.log("Envio creado:", envioCreado);
   };
 
   return (

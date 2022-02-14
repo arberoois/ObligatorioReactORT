@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./index.css";
 const Index = ({ precioFinal }) => {
   const precio = precioFinal();
-  console.log(precioFinal);
   return (
     <div className="gasto">
       {precio > 0 ? (

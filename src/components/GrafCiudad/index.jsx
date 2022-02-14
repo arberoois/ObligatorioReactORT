@@ -1,6 +1,6 @@
 import React from 'react'
 import Chart from 'react-apexcharts'
-
+import './index.css'
 const Index = () => {
     const options = {
         chart: {
@@ -19,11 +19,11 @@ const Index = () => {
     ]
 
     return (
-        <div>
-            <h1>Gráfica por Ciudades</h1>
+        <div className="grafico-ciudad">
+            <h1>Ciudades</h1>
             <Chart
                 type="bar"
-                width="500"
+                width="600"
                 series={series}
                 options={options}
             />

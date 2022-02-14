@@ -1,0 +1,21 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.dashboard .graficos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.dashboard h1 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
