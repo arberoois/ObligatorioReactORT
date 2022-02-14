@@ -23,6 +23,9 @@ const Index = () => {
           <li>
             <Link to="/distancia">Calculo de distancias</Link>
           </li>
+          <li>
+            <Link to="/dashboard">Estadísticas</Link>
+          </li>
         </ul>
       </nav>
       <div className="actions">
