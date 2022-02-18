@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getEnviosPorUser, eliminarEnvio } from "../../api/data";
 import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
 import Envio from "../../components/Envio";
 import Loading from "../../components/Loading";
 import Gasto from "../../components/Gasto";
@@ -21,7 +22,7 @@ const Index = () => {
       created_at: "2019-10-05 12:48:53",
       updated_at: "2021-12-03 16:31:43",
       bandera: 1,
-      wikiDataId: "Q16578"
+      wikiDataId: "Q16578",
     },
     {
       id: 3204,
@@ -36,7 +37,7 @@ const Index = () => {
       created_at: "2019-10-05 12:48:53",
       updated_at: "2021-12-03 16:31:43",
       bandera: 1,
-      wikiDataId: "Q16579"
+      wikiDataId: "Q16579",
     },
     {
       id: 3205,
@@ -51,7 +52,7 @@ const Index = () => {
       created_at: "2019-10-05 12:48:53",
       updated_at: "2021-12-03 16:31:43",
       bandera: 1,
-      wikiDataId: "Q16603"
+      wikiDataId: "Q16603",
     },
     {
       id: 3206,
@@ -66,7 +67,7 @@ const Index = () => {
       created_at: "2019-10-05 12:48:53",
       updated_at: "2021-12-03 16:31:43",
       bandera: 1,
-      wikiDataId: "Q331196"
+      wikiDataId: "Q331196",
     },
     {
       id: 3207,
@@ -81,9 +82,9 @@ const Index = () => {
       created_at: "2019-10-05 12:48:53",
       updated_at: "2021-12-03 16:31:43",
       bandera: 1,
-      wikiDataId: "Q16609"
-    }
-  ]
+      wikiDataId: "Q16609",
+    },
+  ];
 
   const cuidades = [
     {
@@ -98,7 +99,7 @@ const Index = () => {
       created_at: "2019-10-05 17:37:12",
       updated_at: "2019-10-05 17:37:12",
       bandera: 1,
-      wikiDataId: "Q247843"
+      wikiDataId: "Q247843",
     },
     {
       id: 129799,
@@ -112,7 +113,7 @@ const Index = () => {
       created_at: "2019-10-05 17:37:12",
       updated_at: "2019-10-05 17:37:12",
       bandera: 1,
-      wikiDataId: "Q546964"
+      wikiDataId: "Q546964",
     },
     {
       id: 129889,
@@ -126,13 +127,13 @@ const Index = () => {
       created_at: "2019-10-05 17:37:13",
       updated_at: "2020-05-01 11:23:27",
       bandera: 1,
-      wikiDataId: "Q1128223"
-    }
-
-  ]
+      wikiDataId: "Q1128223",
+    },
+  ];
 
   const [listaEnvios, setListaEnvios] = useState([]);
   const [loading, setLoading] = useState({ estado: false, mensaje: "" });
+  const { apiKey, id } = useSelector((state) => state.auth);
   const handleEliminar = async (idEnvio) => {
     setLoading({ estado: true, mensaje: "Eliminando envio..." });
     const eliminado = await eliminarEnvio({ idEnvio });
@@ -150,12 +151,11 @@ const Index = () => {
       (previousValue, currentValue) => previousValue + currentValue.precio,
       0
     );
-  const token = localStorage.getItem("apikey");
   useEffect(() => {
     const obtenerEnvios = async () => {
       setLoading({ estado: true, mensaje: "Cargando envios..." });
-      const userId = localStorage.getItem("userid");
-      const llamada = await getEnviosPorUser(userId);
+      const userId = id;
+      const llamada = await getEnviosPorUser(apiKey, userId);
       if (llamada.codigo === 200) {
         setListaEnvios(llamada.envios);
       } else {
@@ -164,8 +164,8 @@ const Index = () => {
       setLoading({ estado: false, mensaje: "" });
     };
 
-    if (token) obtenerEnvios();
-  }, [token]);
+    if (apiKey) obtenerEnvios();
+  }, [apiKey, id]);
 
   return loading.estado ? (
     <Loading texto={loading.mensaje} />
@@ -175,16 +175,15 @@ const Index = () => {
         Lista de Envíos
       </h1>
       <div className="lista-envios">
-        {listaEnvios.length > 0 ? (
-          listaEnvios.map((envio) => (
-            <Envio
-              key={envio.id}
-              envio={envio}
-              handleEliminar={handleEliminar}
-            />
-          ))
-        ) : (
-          null)}
+        {listaEnvios.length > 0
+          ? listaEnvios.map((envio) => (
+              <Envio
+                key={envio.id}
+                envio={envio}
+                handleEliminar={handleEliminar}
+              />
+            ))
+          : null}
       </div>
       <div>
         <Gasto precioFinal={precioFinal} />

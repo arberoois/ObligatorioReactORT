@@ -3,6 +3,7 @@ import { getDistance } from "geolib";
 import { crearEnvio } from "../../api/data";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./index.css";
 const Index = () => {
   const [envio, setEnvio] = useState({
@@ -12,7 +13,7 @@ const Index = () => {
     idCiudadDestino: "Y",
   });
   const navigate = useNavigate();
-
+  const { apiKey, id } = useSelector((state) => state.auth);
   const calcularCosto = (p, d) => {
     let prec = 50;
     // Hacer cálculo del precio total
@@ -71,17 +72,16 @@ const Index = () => {
         { latitude: cD.latitud, longitude: cD.longitud }
       ) / 100;
     const precio = calcularCosto(envio.peso, distancia);
-    const idUsuario = localStorage.getItem("userid");
-    setEnvio({ ...envio, distancia, precio, idUsuario });
+    setEnvio({ ...envio, distancia, precio, id });
 
     const objetito = {
       ...envio,
       distancia: distancia,
       precio,
-      idUsuario,
+      id,
     };
 
-    const envioCreado = await crearEnvio(objetito);
+    const envioCreado = await crearEnvio(apiKey, objetito);
     if (envioCreado.codigo === 200) {
       toast.success(
         `${envioCreado.mensaje}, número del envío: ${envioCreado.idEnvio}`

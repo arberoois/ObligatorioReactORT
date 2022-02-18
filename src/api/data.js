@@ -1,11 +1,10 @@
 const baseURL = "https://envios.develotion.com/";
-
-export const getDepartamentos = () => {
+export const getDepartamentos = (apiKey) => {
   const get = fetch(baseURL + "departamentos.php", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      apikey: localStorage.getItem("apikey"),
+      apikey: apiKey,
     },
   })
     .then((res) => res.json())
@@ -14,12 +13,26 @@ export const getDepartamentos = () => {
   return get;
 };
 
-export const getCiudadesPorID = (id) => {
+export const getCiudades = (apiKey) => {
+  const get = fetch(baseURL + `ciudades.php`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: apiKey,
+    },
+  })
+    .then((res) => res.json())
+    .then((result) => result)
+    .catch((e) => e);
+  return get;
+};
+
+export const getCiudadesPorID = (apiKey, id) => {
   const get = fetch(baseURL + `ciudades.php?idDepartamento=${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      apikey: localStorage.getItem("apikey"),
+      apikey: apiKey,
     },
   })
     .then((res) => res.json())
@@ -28,12 +41,12 @@ export const getCiudadesPorID = (id) => {
   return get;
 };
 
-export const getEnviosPorUser = (id) => {
+export const getEnviosPorUser = (apiKey, id) => {
   const get = fetch(baseURL + `envios.php?idUsuario=${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      apikey: localStorage.getItem("apikey"),
+      apikey: apiKey,
     },
   })
     .then((res) => res.json())
@@ -42,12 +55,12 @@ export const getEnviosPorUser = (id) => {
   return get;
 };
 
-export const crearEnvio = (data) => {
+export const crearEnvio = (apiKey, data) => {
   const post = fetch(baseURL + `envios.php`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      apikey: localStorage.getItem("apikey"),
+      apikey: apiKey,
     },
     body: JSON.stringify(data),
   })
@@ -57,12 +70,12 @@ export const crearEnvio = (data) => {
   return post;
 };
 
-export const eliminarEnvio = (data) => {
+export const eliminarEnvio = (apiKey, data) => {
   const del = fetch(baseURL + `envios.php`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      apikey: localStorage.getItem("apikey"),
+      apikey: apiKey,
     },
     body: JSON.stringify(data),
   })
@@ -72,12 +85,12 @@ export const eliminarEnvio = (data) => {
   return del;
 };
 
-export const getCategorias = () => {
+export const getCategorias = (apiKey) => {
   const get = fetch(baseURL + `categorias.php`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      apikey: localStorage.getItem("apikey"),
+      apikey: apiKey,
     },
   })
     .then((res) => res.json())

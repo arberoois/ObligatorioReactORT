@@ -2,12 +2,30 @@ import React from "react";
 import "./index.css";
 import Logo from "../../assets/travelLogo.jpg";
 import { Link } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import * as typesReducer from "../../reducers/reducers";
+import { useNavigate } from "react-router-dom";
 const Index = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { apiKey } = useSelector((state) => state.auth);
   const handleSignOff = () => {
-    localStorage.removeItem("apikey");
-    localStorage.removeItem("userid");
-    window.location.reload();
+    dispatch({
+      type: typesReducer.typesEnvios.ELIMINAR_ENVIOS,
+    });
+    dispatch({
+      type: typesReducer.typesAuth.ELIMINAR_USUARIO,
+    });
+    dispatch({
+      type: typesReducer.typesCiudades.ELIMINAR_CIUDADES,
+    });
+    dispatch({
+      type: typesReducer.typesDepartamentos.ELIMINAR_DEPARTAMENTOS,
+    });
+    dispatch({
+      type: typesReducer.typesCategorias.ELIMINAR_CATEGORIAS,
+    });
+    navigate("/");
   };
   return (
     <header className="header">
@@ -29,7 +47,7 @@ const Index = () => {
         </ul>
       </nav>
       <div className="actions">
-        {localStorage.getItem("apikey") ? (
+        {apiKey ? (
           <button onClick={handleSignOff}>Cerrar Sesión</button>
         ) : (
           <>

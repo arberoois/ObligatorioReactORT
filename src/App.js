@@ -9,15 +9,15 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Error from "./components/Error";
-
+import { useSelector } from "react-redux";
 const App = () => {
   const navigate = useNavigate();
+  const { apiKey } = useSelector((state) => state.auth);
   useEffect(() => {
-    const token = localStorage.getItem("apikey");
-    if (!token) {
+    if (!apiKey) {
       navigate("/login");
     }
-  }, [navigate]);
+  }, [navigate, apiKey]);
 
   return (
     <div className="App">
