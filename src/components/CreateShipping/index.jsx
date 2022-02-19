@@ -103,7 +103,9 @@ const Index = () => {
               ;
               {departamentos.map((departamento) => {
                 return (
-                  <option value={departamento.id}>{departamento.nombre}</option>
+                  <option key={departamento.id} value={departamento.id}>
+                    {departamento.nombre}
+                  </option>
                 );
               })}
             </select>
@@ -124,7 +126,11 @@ const Index = () => {
                     (ciudad) => ciudad.id_departamento == departamentoOrigen
                   )
                   .map((ciudad) => {
-                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
+                    return (
+                      <option key={ciudad.id} value={ciudad.id}>
+                        {ciudad.nombre}
+                      </option>
+                    );
                   })}
             </select>
           </div>
@@ -141,7 +147,9 @@ const Index = () => {
               ;
               {departamentos.map((departamento) => {
                 return (
-                  <option value={departamento.id}>{departamento.nombre}</option>
+                  <option key={departamento.id} value={departamento.id}>
+                    {departamento.nombre}
+                  </option>
                 );
               })}
             </select>
@@ -162,7 +170,11 @@ const Index = () => {
                     (ciudad) => ciudad.id_departamento == departamentoDestino
                   )
                   .map((ciudad) => {
-                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
+                    return (
+                      <option key={ciudad.id} value={ciudad.id}>
+                        {ciudad.nombre}
+                      </option>
+                    );
                   })}
             </select>
           </div>
@@ -181,7 +193,9 @@ const Index = () => {
               {categorias.length > 0 &&
                 categorias.map((categoria) => {
                   return (
-                    <option value={categoria.id}>{categoria.nombre}</option>
+                    <option key={categoria.id} value={categoria.id}>
+                      {categoria.nombre}
+                    </option>
                   );
                 })}
             </select>

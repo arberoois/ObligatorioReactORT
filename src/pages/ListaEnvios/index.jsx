@@ -14,7 +14,6 @@ const Index = () => {
   const { apiKey } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState({ estado: false, mensaje: "" });
   const handleEliminar = async (idEnvio) => {
-    console.log(idEnvio, "hola ?");
     setLoading({ estado: true, mensaje: "Eliminando envio..." });
     const eliminado = await eliminarEnvio(apiKey, idEnvio);
     if (eliminado.codigo === 200) {

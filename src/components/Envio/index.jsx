@@ -2,9 +2,7 @@ import React from "react";
 import "./index.css";
 import { useSelector } from "react-redux";
 const Index = ({ envio, handleEliminar }) => {
-  console.log(envio, "el envio");
   const ciudades = useSelector((state) => state.ciudades);
-  console.log(ciudades);
   const { nombre: nombreCiudadOrigen } = ciudades.find(
     (ciudad) => ciudad.id === envio.ciudad_origen
   );

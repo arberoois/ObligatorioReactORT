@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+}
+
+table thead {
+  background: bisque;
+}
+
+table thead th {
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+}
+
+table tbody {
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+table tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+table tbody td {
+  padding: 10px;
+  text-align: center;
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: rgb(250, 238, 223);
+}

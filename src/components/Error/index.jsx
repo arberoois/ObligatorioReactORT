@@ -4,8 +4,9 @@ import "./index.css";
 const Index = () => {
   return (
     <div className="error404">
-      <h1>Error 404</h1>
-      <Link to="/">Volver al Inicio</Link>
+      <h1>Error</h1>
+      <p>Debes estar registrado para acceder a esta sección</p>
+      <Link to="/register">Registrarme</Link>
     </div>
   );
 };

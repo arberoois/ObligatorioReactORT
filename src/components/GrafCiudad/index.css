@@ -1,14 +1,15 @@
 .grafico-ciudad {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-right: 20px;
-    box-shadow: 0px 0px 10px #ccc;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-right: 20px;
+  box-shadow: 0px 0px 10px #ccc;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .grafico-ciudad h1 {
-    font-size: 1.5em;
-    margin-bottom: 0.5em;
-    text-align: center;
-    text-decoration: underline;
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+  text-decoration: underline;
 }

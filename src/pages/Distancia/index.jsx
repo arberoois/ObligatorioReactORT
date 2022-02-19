@@ -78,7 +78,11 @@ const Index = () => {
                     (ciudad) => ciudad.id_departamento == departamentoOrigen
                   )
                   .map((ciudad) => {
-                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
+                    return (
+                      <option key={ciudad.id} value={ciudad.id}>
+                        {ciudad.nombre}
+                      </option>
+                    );
                   })}
             </select>
           </div>
@@ -114,7 +118,11 @@ const Index = () => {
                     (ciudad) => ciudad.id_departamento == departamentoDestino
                   )
                   .map((ciudad) => {
-                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
+                    return (
+                      <option key={ciudad.id} value={ciudad.id}>
+                        {ciudad.nombre}
+                      </option>
+                    );
                   })}
             </select>
           </div>

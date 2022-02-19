@@ -71,7 +71,6 @@ export const crearEnvio = (apiKey, data) => {
 };
 
 export const eliminarEnvio = (apiKey, data) => {
-  console.log(apiKey, data);
   const del = fetch(baseURL + `envios.php`, {
     method: "DELETE",
     headers: {
