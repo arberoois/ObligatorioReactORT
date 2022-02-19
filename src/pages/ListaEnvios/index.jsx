@@ -14,18 +14,22 @@ const Index = () => {
   const { apiKey } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState({ estado: false, mensaje: "" });
   const handleEliminar = async (idEnvio) => {
-    setLoading({ estado: true, mensaje: "Eliminando envio..." });
-    const eliminado = await eliminarEnvio(apiKey, idEnvio);
-    if (eliminado.codigo === 200) {
-      dispatch({
-        type: typesReducer.typesEnvios.ELIMINAR_ENVIO,
-        payload: idEnvio,
-      });
-      toast.success(`${eliminado.mensaje}, id del envío: ${eliminado.idEnvio}`);
-    } else {
-      toast.error(`${eliminado.mensaje}`);
+    try {
+      setLoading({ estado: true, mensaje: "Eliminando envio..." });
+      const eliminado = await eliminarEnvio(apiKey, idEnvio);
+      if (eliminado.codigo === 200) {
+        dispatch({
+          type: typesReducer.typesEnvios.ELIMINAR_ENVIO,
+          payload: idEnvio,
+        });
+        toast.success(`${eliminado.mensaje}`);
+      } else {
+        toast.error(`${eliminado.mensaje}`);
+      }
+      setLoading({ estado: false, mensaje: "" });
+    } catch (error) {
+      setLoading({ estado: false, mensaje: "" });
     }
-    setLoading({ estado: false, mensaje: "" });
   };
 
   const precioFinal = () =>

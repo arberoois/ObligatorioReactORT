@@ -8,29 +8,24 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Error from "./components/Error";
-import { useSelector } from "react-redux";
+import ProtectedRoutes from "./ProtectedRoutes";
 const App = () => {
-  const { apiKey } = useSelector((state) => state.auth);
-
   return (
     <div className="App">
       <Header />
       <Routes>
-        {apiKey ? (
-          <>
+        <>
+          <Route element={<ProtectedRoutes />}>
             <Route path="/" element={<Shipments />} />
             <Route path="/lista-envios" element={<ListaEnvios />} />
             <Route path="/distancia" element={<Distancia />} />
             <Route path="/dashboard" element={<Dashboard />} />
-          </>
-        ) : (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </>
-        )}
+          </Route>
 
-        <Route path="*" element={<Error />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<Error />} />
+        </>
       </Routes>
     </div>
   );

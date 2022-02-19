@@ -44,6 +44,15 @@ const Index = () => {
           <li>
             <Link to="/dashboard">Estadísticas</Link>
           </li>
+          <li>
+            <Link to="/login">L</Link>
+          </li>
+          <li>
+            <Link to="/register">R</Link>
+          </li>
+          <li>
+            <Link to="/asfasfas">xD</Link>
+          </li>
         </ul>
       </nav>
       <div className="actions">

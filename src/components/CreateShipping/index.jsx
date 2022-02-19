@@ -41,48 +41,53 @@ const Index = () => {
       toast.error("Todos los campos son obligatorios");
       return;
     }
-    const ciudadOrigen = ciudades.find((c) => c.id == envio.idCiudadOrigen);
-    const ciudadDestino = ciudades.find((c) => c.id == envio.idCiudadDestino);
-    const distancia =
-      getDistance(
-        { latitude: ciudadOrigen.latitud, longitude: ciudadOrigen.longitud },
-        { latitude: ciudadDestino.latitud, longitude: ciudadDestino.longitud }
-      ) / 1000;
 
-    const precio = calcularCosto(envio.peso, distancia);
+    try {
+      const ciudadOrigen = ciudades.find((c) => c.id == envio.idCiudadOrigen);
+      const ciudadDestino = ciudades.find((c) => c.id == envio.idCiudadDestino);
+      const distancia =
+        getDistance(
+          { latitude: ciudadOrigen.latitud, longitude: ciudadOrigen.longitud },
+          { latitude: ciudadDestino.latitud, longitude: ciudadDestino.longitud }
+        ) / 1000;
 
-    const envioFinal = {
-      ...envio,
-      distancia,
-      precio,
-      idUsuario: id,
-    };
-    envioFinal.idCategoria = Number(envioFinal.idCategoria);
-    envioFinal.idCiudadDestino = Number(envioFinal.idCiudadDestino);
-    envioFinal.idCiudadOrigen = Number(envioFinal.idCiudadOrigen);
-    envioFinal.peso = Number(envioFinal.peso);
-    const envioCreado = await crearEnvio(apiKey, envioFinal);
-    if (envioCreado.codigo === 200) {
-      const envioDispatch = {
-        id: envioCreado.id,
-        ciudad_origen: envioFinal.idCiudadOrigen,
-        ciudad_destino: envioFinal.idCiudadDestino,
-        peso: envioFinal.peso,
-        distancia: envioFinal.distancia,
-        precio: envioFinal.precio,
-        id_categoria: envioFinal.idCategoria,
-        id_usuario: envioFinal.idUsuario,
+      const precio = calcularCosto(envio.peso, distancia);
+
+      const envioFinal = {
+        ...envio,
+        distancia,
+        precio,
+        idUsuario: id,
       };
-      dispatch({
-        type: typesReducer.typesEnvios.AGREGAR_ENVIO,
-        payload: envioDispatch,
-      });
-      toast.success(
-        `${envioCreado.mensaje}, número del envío: ${envioCreado.idEnvio}`
-      );
-      navigate("/lista-envios");
-    } else {
-      toast.error(`${envioCreado.mensaje}`);
+      envioFinal.idCategoria = Number(envioFinal.idCategoria);
+      envioFinal.idCiudadDestino = Number(envioFinal.idCiudadDestino);
+      envioFinal.idCiudadOrigen = Number(envioFinal.idCiudadOrigen);
+      envioFinal.peso = Number(envioFinal.peso);
+      const envioCreado = await crearEnvio(apiKey, envioFinal);
+      if (envioCreado.codigo === 200) {
+        const envioDispatch = {
+          id: envioCreado.id,
+          ciudad_origen: envioFinal.idCiudadOrigen,
+          ciudad_destino: envioFinal.idCiudadDestino,
+          peso: envioFinal.peso,
+          distancia: envioFinal.distancia,
+          precio: envioFinal.precio,
+          id_categoria: envioFinal.idCategoria,
+          id_usuario: envioFinal.idUsuario,
+        };
+        dispatch({
+          type: typesReducer.typesEnvios.AGREGAR_ENVIO,
+          payload: envioDispatch,
+        });
+        toast.success(
+          `${envioCreado.mensaje}, número del envío: ${envioCreado.idEnvio}`
+        );
+        navigate("/lista-envios");
+      } else {
+        toast.error(`${envioCreado.mensaje}`);
+      }
+    } catch (error) {
+      toast.error(`${error}`);
     }
   };
 

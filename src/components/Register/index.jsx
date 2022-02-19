@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { register } from "../../api/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./index.css";
 const Index = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const { apiKey } = useSelector((state) => state.auth);
   const handleRegister = async (e) => {
     e.preventDefault();
     if (name.trim() === "" || password.trim() === "") {
@@ -16,26 +17,31 @@ const Index = () => {
       });
       return;
     } else {
-      const data = {
-        usuario: name,
-        password,
-      };
-      const response = await register(data);
-      if (response.codigo === 200) {
-        toast.success("Usuario creado exitosamente!", {
-          autoClose: 3000,
-        });
-        navigate("/login");
-      } else {
-        toast.error(response.mensaje, {
-          autoClose: 3000,
-        });
-        setName("");
-        setPassword("");
-      }
+      try {
+        const data = {
+          usuario: name,
+          password,
+        };
+        const response = await register(data);
+        if (response.codigo === 200) {
+          toast.success("Usuario creado exitosamente!", {
+            autoClose: 3000,
+          });
+          navigate("/login");
+        } else {
+          toast.error(response.mensaje, {
+            autoClose: 3000,
+          });
+          setName("");
+          setPassword("");
+        }
+      } catch (error) {}
     }
   };
-  return (
+
+  return apiKey ? (
+    <Navigate to="/" />
+  ) : (
     <>
       <div className="register">
         <h1>Registro </h1>
