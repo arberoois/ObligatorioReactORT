@@ -33,7 +33,7 @@ const Index = () => {
       <nav className="nav">
         <ul>
           <li>
-            <Link to="/">Inicio</Link>
+            <Link to="/">Crear Envío</Link>
           </li>
           <li>
             <Link to="/lista-envios">Lista de Envíos</Link>

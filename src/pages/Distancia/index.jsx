@@ -1,58 +1,35 @@
+/* eslint-disable eqeqeq */
 import React, { useState } from "react";
 import { getDistance } from "geolib";
 import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
 import "./index.css";
 
 const Index = () => {
-  const [distancia, setDistancia] = useState({
-    idCiudadOrigen: "X",
-    idCiudadDestino: "Y",
-  });
-
+  const [ciudadOrigen, setCiudadOrigen] = useState("");
+  const [ciudadDestino, setCiudadDestino] = useState("");
+  const [departamentoOrigen, setDepartamentoOrigen] = useState("");
+  const [departamentoDestino, setDepartamentoDestino] = useState("");
+  const ciudades = useSelector((state) => state.ciudades);
+  const departamentos = useSelector((state) => state.departamentos);
   const handleDistancia = async (e) => {
     e.preventDefault();
     // TODO: Hacer búsqueda de las ciudades seleccionadas para obtener ubicación
     // Hacer llamada a la API para obtener distancia, la API devuelve metros
-    const cO = {
-      id: 129797,
-      nombre: "Delta del Tigre",
-      id_departamento: 3204,
-      codigo_departamento: "SJ",
-      id_pais: 235,
-      codigo_pais: "UY",
-      latitud: -34.76487999999999800593286636285483837127685546875,
-      longitud: -56.36449999999999960209606797434389591217041015625,
-      created_at: "2019-10-05 17:37:12",
-      updated_at: "2019-10-05 17:37:12",
-      bandera: 1,
-      wikiDataId: "Q1184943",
-    };
-    const cD = {
-      id: 129823,
-      nombre: "Libertad",
-      id_departamento: 3204,
-      codigo_departamento: "SJ",
-      id_pais: 235,
-      codigo_pais: "UY",
-      latitud: -34.6345900000000028740032576024532318115234375,
-      longitud: -56.6173900000000003274180926382541656494140625,
-      created_at: "2019-10-05 17:37:13",
-      updated_at: "2019-10-05 17:37:13",
-      bandera: 1,
-      wikiDataId: "Q946150",
-    };
-    if (distancia.idCiudadOrigen === "X" || distancia.idCiudadDestino === "Y") {
+    if (!ciudadOrigen || !ciudadDestino) {
       toast.error("Todos los campos son obligatorios");
       return;
     }
+    const cO = ciudades.find((c) => c.id == ciudadOrigen);
+    const cD = ciudades.find((c) => c.id == ciudadDestino);
     const distanciaCalculada =
       getDistance(
         { latitude: cO.latitud, longitude: cO.longitud },
         { latitude: cD.latitud, longitude: cD.longitud }
-      ) / 100;
+      ) / 1000;
     toast.success(
       "La distancia entre las ciudades seleccionadas es de: " +
-        distanciaCalculada +
+        Math.round(distanciaCalculada, 2) +
         " Km",
       {
         autoClose: 5000,
@@ -71,31 +48,74 @@ const Index = () => {
       <div className="distance">
         <form>
           <div>
+            <label>Departamento Origen: </label>
+            <select
+              name="departamentoOrigen"
+              onChange={(e) => setDepartamentoOrigen(e.target.value)}
+            >
+              <option value="x" disabled selected>
+                -Seleccionar Departamento-
+              </option>
+              ;
+              {departamentos.map((departamento) => {
+                return (
+                  <option value={departamento.id}>{departamento.nombre}</option>
+                );
+              })}
+            </select>
             <label>Ciudad de origen:</label>
             <select
-              onChange={(e) =>
-                setDistancia({ ...distancia, [e.target.name]: e.target.value })
-              }
+              onChange={(e) => setCiudadOrigen(e.target.value)}
               name="idCiudadOrigen"
+              disabled={!departamentoOrigen}
             >
-              <option value="X" selected disabled hidden>
-                Seleccionar...
+              <option selected disabled>
+                -Seleccionar Ciudad-
               </option>
-              <option value="J">J</option>
+              {departamentoOrigen &&
+                ciudades
+                  .filter(
+                    (ciudad) => ciudad.id_departamento == departamentoOrigen
+                  )
+                  .map((ciudad) => {
+                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
+                  })}
             </select>
           </div>
+          <hr />
           <div>
+            <label>Departamento Destino: </label>
+            <select
+              name="departamentoDestino"
+              onChange={(e) => setDepartamentoDestino(e.target.value)}
+            >
+              <option value="x" disabled selected>
+                -Seleccionar Departamento-
+              </option>
+              ;
+              {departamentos.map((departamento) => {
+                return (
+                  <option value={departamento.id}>{departamento.nombre}</option>
+                );
+              })}
+            </select>
             <label>Ciudad de destino:</label>
             <select
-              onChange={(e) =>
-                setDistancia({ ...distancia, [e.target.name]: e.target.value })
-              }
+              disabled={!departamentoDestino}
+              onChange={(e) => setCiudadDestino(e.target.value)}
               name="idCiudadDestino"
             >
-              <option value="Y" selected disabled hidden>
-                Seleccionar...
+              <option selected disabled>
+                -Seleccionar Ciudad-
               </option>
-              <option value="N">N</option>
+              {departamentoDestino &&
+                ciudades
+                  .filter(
+                    (ciudad) => ciudad.id_departamento == departamentoDestino
+                  )
+                  .map((ciudad) => {
+                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
+                  })}
             </select>
           </div>
           <button onClick={handleDistancia}>Calcular Distancia</button>

@@ -1,19 +1,23 @@
+/* eslint-disable eqeqeq */
 import React, { useState } from "react";
 import { getDistance } from "geolib";
 import { crearEnvio } from "../../api/data";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import * as typesReducer from "../../reducers/reducers";
 import "./index.css";
 const Index = () => {
-  const [envio, setEnvio] = useState({
-    peso: 0,
-    idCategoria: "Z",
-    idCiudadOrigen: "X",
-    idCiudadDestino: "Y",
-  });
+  const [envio, setEnvio] = useState({});
+  const [departamentoOrigen, setDepartamentoOrigen] = useState("");
+  const [departamentoDestino, setDepartamentoDestino] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { apiKey, id } = useSelector((state) => state.auth);
+  const ciudades = useSelector((state) => state.ciudades);
+  const departamentos = useSelector((state) => state.departamentos);
+  const categorias = useSelector((state) => state.categorias);
   const calcularCosto = (p, d) => {
     let prec = 50;
     // Hacer cálculo del precio total
@@ -27,62 +31,52 @@ const Index = () => {
 
   const handleEnvio = async (e) => {
     e.preventDefault();
-    // TODO: Hacer búsqueda de las ciudades seleccionadas para obtener ubicación
-    // Hacer llamada a la API para obtener distancia, la API devuelve metros
-    const cO = {
-      id: 129797,
-      nombre: "Delta del Tigre",
-      id_departamento: 3204,
-      codigo_departamento: "SJ",
-      id_pais: 235,
-      codigo_pais: "UY",
-      latitud: -34.76487999999999800593286636285483837127685546875,
-      longitud: -56.36449999999999960209606797434389591217041015625,
-      created_at: "2019-10-05 17:37:12",
-      updated_at: "2019-10-05 17:37:12",
-      bandera: 1,
-      wikiDataId: "Q1184943",
-    };
-    const cD = {
-      id: 129823,
-      nombre: "Libertad",
-      id_departamento: 3204,
-      codigo_departamento: "SJ",
-      id_pais: 235,
-      codigo_pais: "UY",
-      latitud: -34.6345900000000028740032576024532318115234375,
-      longitud: -56.6173900000000003274180926382541656494140625,
-      created_at: "2019-10-05 17:37:13",
-      updated_at: "2019-10-05 17:37:13",
-      bandera: 1,
-      wikiDataId: "Q946150",
-    };
+
     if (
-      envio.idCiudadOrigen === "X" ||
-      envio.idCiudadDestino === "Y" ||
-      envio.idCategoria === "Z" ||
-      envio.peso <= 0
+      !envio.idCiudadOrigen ||
+      !envio.idCiudadDestino ||
+      !envio.idCategoria ||
+      !envio.peso
     ) {
       toast.error("Todos los campos son obligatorios");
       return;
     }
+    const ciudadOrigen = ciudades.find((c) => c.id == envio.idCiudadOrigen);
+    const ciudadDestino = ciudades.find((c) => c.id == envio.idCiudadDestino);
     const distancia =
       getDistance(
-        { latitude: cO.latitud, longitude: cO.longitud },
-        { latitude: cD.latitud, longitude: cD.longitud }
-      ) / 100;
+        { latitude: ciudadOrigen.latitud, longitude: ciudadOrigen.longitud },
+        { latitude: ciudadDestino.latitud, longitude: ciudadDestino.longitud }
+      ) / 1000;
+
     const precio = calcularCosto(envio.peso, distancia);
-    setEnvio({ ...envio, distancia, precio, id });
 
-    const objetito = {
+    const envioFinal = {
       ...envio,
-      distancia: distancia,
+      distancia,
       precio,
-      id,
+      idUsuario: id,
     };
-
-    const envioCreado = await crearEnvio(apiKey, objetito);
+    envioFinal.idCategoria = Number(envioFinal.idCategoria);
+    envioFinal.idCiudadDestino = Number(envioFinal.idCiudadDestino);
+    envioFinal.idCiudadOrigen = Number(envioFinal.idCiudadOrigen);
+    envioFinal.peso = Number(envioFinal.peso);
+    const envioCreado = await crearEnvio(apiKey, envioFinal);
     if (envioCreado.codigo === 200) {
+      const envioDispatch = {
+        id: envioCreado.id,
+        ciudad_origen: envioFinal.idCiudadOrigen,
+        ciudad_destino: envioFinal.idCiudadDestino,
+        peso: envioFinal.peso,
+        distancia: envioFinal.distancia,
+        precio: envioFinal.precio,
+        id_categoria: envioFinal.idCategoria,
+        id_usuario: envioFinal.idUsuario,
+      };
+      dispatch({
+        type: typesReducer.typesEnvios.AGREGAR_ENVIO,
+        payload: envioDispatch,
+      });
       toast.success(
         `${envioCreado.mensaje}, número del envío: ${envioCreado.idEnvio}`
       );
@@ -98,33 +92,81 @@ const Index = () => {
       <div className="create-shipping">
         <form>
           <div>
+            <label>Departamento Origen: </label>
+            <select
+              name="departamentoOrigen"
+              onChange={(e) => setDepartamentoOrigen(e.target.value)}
+            >
+              <option value="x" disabled selected>
+                -Seleccionar Departamento-
+              </option>
+              ;
+              {departamentos.map((departamento) => {
+                return (
+                  <option value={departamento.id}>{departamento.nombre}</option>
+                );
+              })}
+            </select>
             <label>Ciudad de origen:</label>
             <select
               onChange={(e) =>
                 setEnvio({ ...envio, [e.target.name]: e.target.value })
               }
               name="idCiudadOrigen"
+              disabled={!departamentoOrigen}
             >
-              <option value="X" selected disabled hidden>
-                Seleccionar...
+              <option selected disabled>
+                -Seleccionar Ciudad-
               </option>
-              <option value="J">J</option>
+              {departamentoOrigen &&
+                ciudades
+                  .filter(
+                    (ciudad) => ciudad.id_departamento == departamentoOrigen
+                  )
+                  .map((ciudad) => {
+                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
+                  })}
             </select>
           </div>
+          <hr />
           <div>
+            <label>Departamento Destino: </label>
+            <select
+              name="departamentoDestino"
+              onChange={(e) => setDepartamentoDestino(e.target.value)}
+            >
+              <option value="x" disabled selected>
+                -Seleccionar Departamento-
+              </option>
+              ;
+              {departamentos.map((departamento) => {
+                return (
+                  <option value={departamento.id}>{departamento.nombre}</option>
+                );
+              })}
+            </select>
             <label>Ciudad de destino:</label>
             <select
+              disabled={!departamentoDestino}
               onChange={(e) =>
                 setEnvio({ ...envio, [e.target.name]: e.target.value })
               }
               name="idCiudadDestino"
             >
-              <option value="Y" selected disabled hidden>
-                Seleccionar...
+              <option selected disabled>
+                -Seleccionar Ciudad-
               </option>
-              <option value="N">N</option>
+              {departamentoDestino &&
+                ciudades
+                  .filter(
+                    (ciudad) => ciudad.id_departamento == departamentoDestino
+                  )
+                  .map((ciudad) => {
+                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
+                  })}
             </select>
           </div>
+          <hr />
           <div>
             <label>Categoría:</label>
             <select
@@ -133,12 +175,18 @@ const Index = () => {
               }
               name="idCategoria"
             >
-              <option value="Z" selected disabled hidden>
+              <option selected disabled>
                 Seleccionar...
               </option>
-              <option value="Q">Q</option>
+              {categorias.length > 0 &&
+                categorias.map((categoria) => {
+                  return (
+                    <option value={categoria.id}>{categoria.nombre}</option>
+                  );
+                })}
             </select>
           </div>
+          <hr />
           <div>
             <label>Peso del paquete:</label>
             <input
@@ -150,7 +198,7 @@ const Index = () => {
               placeholder="peso en kilogramos"
             />
           </div>
-          <button onClick={handleEnvio}>Enviar</button>
+          <button onClick={handleEnvio}>Crear Envio</button>
         </form>
       </div>
       <Toaster></Toaster>

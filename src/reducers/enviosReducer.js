@@ -5,16 +5,21 @@ const enviosReducer = (state = initialState, action) => {
     case CARGAR_ENVIOS:
       state = action.payload;
       return state;
-    case CREAR_ENVIOS:
+    case AGREGAR_ENVIO:
+      state = [...state, action.payload];
       return state;
     case ELIMINAR_ENVIOS:
       state = initialState;
+      return state;
+    case ELIMINAR_ENVIO:
+      state = state.filter((envio) => envio.id !== action.payload);
       return state;
     default:
       return state;
   }
 };
 export const CARGAR_ENVIOS = "CARGAR_ENVIOS";
-export const CREAR_ENVIOS = "CREAR_ENVIOS";
+export const AGREGAR_ENVIO = "AGREGAR_ENVIO";
 export const ELIMINAR_ENVIOS = "ELIMINAR_ENVIOS";
+export const ELIMINAR_ENVIO = "ELIMINAR_ENVIO";
 export default enviosReducer;

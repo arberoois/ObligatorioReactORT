@@ -71,13 +71,14 @@ export const crearEnvio = (apiKey, data) => {
 };
 
 export const eliminarEnvio = (apiKey, data) => {
+  console.log(apiKey, data);
   const del = fetch(baseURL + `envios.php`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       apikey: apiKey,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({ idEnvio: data }),
   })
     .then((res) => res.json())
     .then((result) => result)

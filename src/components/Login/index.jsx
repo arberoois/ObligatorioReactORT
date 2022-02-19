@@ -8,7 +8,7 @@ import {
   getDepartamentos,
   getCategorias,
 } from "../../api/data";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as typesReducer from "../../reducers/reducers";
 import Loading from "../Loading";
 import "./index.css";
@@ -18,7 +18,6 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const handleLogin = async (e) => {
     e.preventDefault();
     if (name.trim() === "" || password.trim() === "") {
@@ -49,6 +48,7 @@ const Index = () => {
           toast.error(envios.mensaje);
         }
         const ciudades = await getCiudades(response.apiKey);
+
         if (ciudades.codigo === 200) {
           dispatch({
             type: typesReducer.typesCiudades.CARGAR_CIUDADES,
@@ -75,7 +75,11 @@ const Index = () => {
         } else {
           toast.error(categorias.mensaje);
         }
-        navigate("/");
+        if (envios.envios.length > 0) {
+          navigate("/lista-envios");
+        } else {
+          navigate("/");
+        }
       } else {
         toast.error(response.mensaje, {
           autoClose: 3000,
