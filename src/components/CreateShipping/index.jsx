@@ -42,6 +42,11 @@ const Index = () => {
       return;
     }
 
+    if (envio.peso < 0) {
+      toast.error("El peso no puede ser negativo");
+      return;
+    }
+
     try {
       const ciudadOrigen = ciudades.find((c) => c.id == envio.idCiudadOrigen);
       const ciudadDestino = ciudades.find((c) => c.id == envio.idCiudadDestino);
