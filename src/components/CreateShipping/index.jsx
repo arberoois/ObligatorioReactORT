@@ -42,8 +42,8 @@ const Index = () => {
       return;
     }
 
-    if (envio.peso < 0) {
-      toast.error("El peso no puede ser negativo");
+    if (envio.peso < 0 || envio.peso > 1000) {
+      toast.error("El peso no puede ser negativo ni mayor a 1000kg");
       return;
     }
 
