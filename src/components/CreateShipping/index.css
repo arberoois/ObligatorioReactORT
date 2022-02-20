@@ -1,9 +1,11 @@
 .create-shipping {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 1200px;
+  margin: 0 auto;
+}
+
+.create-shipping form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .create-shipping h1 {
@@ -13,50 +15,41 @@
   text-align: center;
 }
 
-.create-shipping form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 10px;
+.create-shipping .left,
+.create-shipping .right {
+  padding: 0 20px;
 }
 
-.create-shipping form div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  background-color: #fff;
-  padding: 5px;
-}
-
-.create-shipping form div label {
-  font-size: 1em;
+.create-shipping label {
+  display: block;
   font-weight: bold;
-  margin: 5px 0;
+  margin: 10px 0;
+  text-align: center;
 }
 
 .create-shipping form div input {
   width: 100%;
-  padding: 5px;
-  margin-bottom: 5px;
+  height: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  padding: 0;
+  text-align: center;
+  outline: none;
 }
 
 .create-shipping form div select {
+  height: 30px;
   width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
   border-radius: 5px;
+  border: 1px solid #ccc;
+  text-align: center;
+  outline: none;
 }
 
 .create-shipping form button {
-  width: 100%;
+  grid-column: 1/3;
   height: 100%;
-  padding: 5px;
+  margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #ffedd7;

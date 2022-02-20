@@ -20,7 +20,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 200px;
+  width: 400px;
   background-color: #fff;
   padding: 5px;
 }
@@ -28,7 +28,10 @@
 .distance form div label {
   font-size: 1em;
   font-weight: bold;
-  margin: 5px 0;
+  margin: 10px 0;
+}
+.distance .destino label:first-child {
+  margin-top: 0;
 }
 
 .distance form div select {
@@ -36,12 +39,12 @@
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  text-align: center;
 }
 
 .distance form button {
   width: 100%;
-  height: 100%;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #ffedd7;

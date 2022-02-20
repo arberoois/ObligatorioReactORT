@@ -6,10 +6,7 @@ const Index = ({ precioFinal }) => {
   return (
     <div className="gasto">
       {precio > 0 ? (
-        <>
-          <p>Precio total: ${precio} </p>
-          <span>Es el precio total de todos tus envíos.</span>
-        </>
+        <p>Precio total: ${precio} </p>
       ) : (
         <>
           <p>No has hecho envíos, ¿Qué esperás para hacer uno?</p>

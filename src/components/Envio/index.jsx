@@ -11,11 +11,25 @@ const Index = ({ envio, handleEliminar }) => {
   );
   return (
     <div className="envio">
-      <p>Ciudad origen: {nombreCiudadOrigen}</p>
-      <p>Ciudad destino: {nombreCiudadDestino}</p>
-      <p>Distancia: {envio.distancia} Km</p>
-      <p>Precio: $ {envio.precio}</p>
-      <button onClick={() => handleEliminar(envio.id)}>Eliminar</button>
+      <ul>
+        <li>
+          <span>Ciudad de origen: </span>
+          <span> {nombreCiudadOrigen}</span>
+        </li>
+        <li>
+          <span>Ciudad de destino: </span>
+          <span> {nombreCiudadDestino}</span>
+        </li>
+        <li>
+          <span>Costo: ${envio.precio}</span>
+        </li>
+        <li>
+          <span>Distancia: {Math.round(envio.distancia, 2)} Kms</span>
+        </li>
+        <li>
+          <button onClick={() => handleEliminar(envio.id)}>Eliminar</button>
+        </li>
+      </ul>
     </div>
   );
 };

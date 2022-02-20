@@ -13,7 +13,7 @@ const Index = () => {
     e.preventDefault();
     if (name.trim() === "" || password.trim() === "") {
       toast.error("Usuario y contraseña son requeridos.", {
-        autoClose: 3000,
+        duration: 5000,
       });
       return;
     } else {
@@ -25,17 +25,19 @@ const Index = () => {
         const response = await register(data);
         if (response.codigo === 200) {
           toast.success("Usuario creado exitosamente!", {
-            autoClose: 3000,
+            duration: 5000,
           });
           navigate("/login");
         } else {
           toast.error(response.mensaje, {
-            autoClose: 3000,
+            duration: 5000,
           });
           setName("");
           setPassword("");
         }
-      } catch (error) {}
+      } catch (error) {
+        toast.error(error);
+      }
     }
   };
 

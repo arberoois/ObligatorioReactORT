@@ -22,10 +22,9 @@ const Index = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     if (name.trim() === "" || password.trim() === "") {
       toast.error("Usuario y contraseña son requeridos.", {
-        autoClose: 3000,
+        duration: 5000,
       });
       return;
     } else {
@@ -37,10 +36,6 @@ const Index = () => {
         const response = await login(data);
         if (response.codigo === 200) {
           setLoading(true);
-          dispatch({
-            type: typesReducer.typesAuth.CARGAR_USUARIO,
-            payload: response,
-          });
           const envios = await getEnviosPorUser(response.apiKey, response.id);
           if (envios.codigo === 200) {
             dispatch({
@@ -77,18 +72,20 @@ const Index = () => {
           } else {
             toast.error(categorias.mensaje);
           }
-
-          // navega antes de que los datos se carguen, está mal ???
+          // carga usario final, para post validacion apiKey
+          dispatch({
+            type: typesReducer.typesAuth.CARGAR_USUARIO,
+            payload: response,
+          });
           setLoading(false);
           navigate("/");
         } else {
-          toast.error(response.mensaje, {
-            autoClose: 3000,
-          });
+          toast.error(response.mensaje);
           setName("");
           setPassword("");
         }
       } catch (error) {
+        setLoading(false);
         toast.error(error);
       }
     }

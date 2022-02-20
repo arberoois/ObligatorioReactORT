@@ -31,29 +31,22 @@ const Index = () => {
     <header className="header">
       <img src={Logo} alt="Logo Agencia" />
       <nav className="nav">
-        <ul>
-          <li>
-            <Link to="/">Crear Envío</Link>
-          </li>
-          <li>
-            <Link to="/lista-envios">Lista de Envíos</Link>
-          </li>
-          <li>
-            <Link to="/distancia">Calculo de distancias</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Estadísticas</Link>
-          </li>
-          <li>
-            <Link to="/login">L</Link>
-          </li>
-          <li>
-            <Link to="/register">R</Link>
-          </li>
-          <li>
-            <Link to="/asfasfas">xD</Link>
-          </li>
-        </ul>
+        {apiKey && (
+          <ul>
+            <li>
+              <Link to="/">Crear Envío</Link>
+            </li>
+            <li>
+              <Link to="/lista-envios">Lista de Envíos</Link>
+            </li>
+            <li>
+              <Link to="/distancia">Calculo de distancias</Link>
+            </li>
+            <li>
+              <Link to="/dashboard">Estadísticas</Link>
+            </li>
+          </ul>
+        )}
       </nav>
       <div className="actions">
         {apiKey ? (

@@ -96,7 +96,7 @@ const Index = () => {
       <h1 style={{ margin: "40px", textAlign: "center" }}>Ingresar un envío</h1>
       <div className="create-shipping">
         <form>
-          <div>
+          <div className="left">
             <label>Departamento Origen: </label>
             <select
               name="departamentoOrigen"
@@ -138,9 +138,28 @@ const Index = () => {
                     );
                   })}
             </select>
+
+            <label>Categoría:</label>
+            <select
+              onChange={(e) =>
+                setEnvio({ ...envio, [e.target.name]: e.target.value })
+              }
+              name="idCategoria"
+            >
+              <option selected disabled>
+                Seleccionar...
+              </option>
+              {categorias.length > 0 &&
+                categorias.map((categoria) => {
+                  return (
+                    <option key={categoria.id} value={categoria.id}>
+                      {categoria.nombre}
+                    </option>
+                  );
+                })}
+            </select>
           </div>
-          <hr />
-          <div>
+          <div className="right">
             <label>Departamento Destino: </label>
             <select
               name="departamentoDestino"
@@ -182,31 +201,7 @@ const Index = () => {
                     );
                   })}
             </select>
-          </div>
-          <hr />
-          <div>
-            <label>Categoría:</label>
-            <select
-              onChange={(e) =>
-                setEnvio({ ...envio, [e.target.name]: e.target.value })
-              }
-              name="idCategoria"
-            >
-              <option selected disabled>
-                Seleccionar...
-              </option>
-              {categorias.length > 0 &&
-                categorias.map((categoria) => {
-                  return (
-                    <option key={categoria.id} value={categoria.id}>
-                      {categoria.nombre}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-          <hr />
-          <div>
+
             <label>Peso del paquete:</label>
             <input
               onChange={(e) =>

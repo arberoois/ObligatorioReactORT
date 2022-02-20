@@ -14,8 +14,6 @@ const Index = () => {
   const departamentos = useSelector((state) => state.departamentos);
   const handleDistancia = async (e) => {
     e.preventDefault();
-    // TODO: Hacer búsqueda de las ciudades seleccionadas para obtener ubicación
-    // Hacer llamada a la API para obtener distancia, la API devuelve metros
     if (!ciudadOrigen || !ciudadDestino) {
       toast.error("Todos los campos son obligatorios");
       return;
@@ -28,11 +26,11 @@ const Index = () => {
         { latitude: cD.latitud, longitude: cD.longitud }
       ) / 1000;
     toast.success(
-      "La distancia entre las ciudades seleccionadas es de: " +
+      "La distancia entre las ciudades seleccionadas es de " +
         Math.round(distanciaCalculada, 2) +
         " Km",
       {
-        autoClose: 5000,
+        duration: 5000,
         style: {
           textAlign: "center",
         },
@@ -86,8 +84,7 @@ const Index = () => {
                   })}
             </select>
           </div>
-          <hr />
-          <div>
+          <div className="destino">
             <label>Departamento Destino: </label>
             <select
               name="departamentoDestino"
