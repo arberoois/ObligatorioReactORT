@@ -67,7 +67,7 @@ const Index = () => {
         <thead>
           <tr>
             <th>Departamento</th>
-            <th>Cantidad Envios</th>
+            <th>Cantidad Envios s</th>
           </tr>
         </thead>
         <tbody>
