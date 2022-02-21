@@ -59,3 +59,8 @@
 .header .actions a:hover {
   background-color: #fff;
 }
+
+.header .actions span {
+  font-weight: bold;
+  font-size: 14px;
+}

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Index = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { apiKey } = useSelector((state) => state.auth);
+  const { apiKey, name } = useSelector((state) => state.auth);
   const handleSignOff = () => {
     dispatch({
       type: typesReducer.typesEnvios.ELIMINAR_ENVIOS,
@@ -50,7 +50,10 @@ const Index = () => {
       </nav>
       <div className="actions">
         {apiKey ? (
-          <button onClick={handleSignOff}>Cerrar Sesión</button>
+          <>
+            <span>{name}</span>
+            <button onClick={handleSignOff}>Cerrar Sesión</button>
+          </>
         ) : (
           <>
             <Link to="/register">Registro</Link>

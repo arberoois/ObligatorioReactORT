@@ -35,6 +35,7 @@ const Index = () => {
         };
         const response = await login(data);
         if (response.codigo === 200) {
+          response.name = name;
           setLoading(true);
           const envios = await getEnviosPorUser(response.apiKey, response.id);
           if (envios.codigo === 200) {
