@@ -14,7 +14,12 @@ const Index = () => {
   const departamentos = useSelector((state) => state.departamentos);
   const handleDistancia = async (e) => {
     e.preventDefault();
-    if (!ciudadOrigen || !ciudadDestino) {
+    if (
+      !ciudadOrigen ||
+      !ciudadDestino ||
+      !departamentoOrigen ||
+      !departamentoDestino
+    ) {
       toast.error("Todos los campos son obligatorios");
       return;
     }
@@ -50,8 +55,9 @@ const Index = () => {
             <select
               name="departamentoOrigen"
               onChange={(e) => setDepartamentoOrigen(e.target.value)}
+              value={departamentoOrigen}
             >
-              <option value="x" disabled selected>
+              <option value="" disabled selected>
                 -Seleccionar Departamento-
               </option>
               ;
@@ -66,8 +72,9 @@ const Index = () => {
               onChange={(e) => setCiudadOrigen(e.target.value)}
               name="idCiudadOrigen"
               disabled={!departamentoOrigen}
+              value={ciudadOrigen}
             >
-              <option selected disabled>
+              <option value="" selected disabled>
                 -Seleccionar Ciudad-
               </option>
               {departamentoOrigen &&
@@ -76,11 +83,7 @@ const Index = () => {
                     (ciudad) => ciudad.id_departamento == departamentoOrigen
                   )
                   .map((ciudad) => {
-                    return (
-                      <option key={ciudad.id} value={ciudad.id}>
-                        {ciudad.nombre}
-                      </option>
-                    );
+                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
                   })}
             </select>
           </div>
@@ -89,8 +92,9 @@ const Index = () => {
             <select
               name="departamentoDestino"
               onChange={(e) => setDepartamentoDestino(e.target.value)}
+              value={departamentoDestino}
             >
-              <option value="x" disabled selected>
+              <option value="" disabled selected>
                 -Seleccionar Departamento-
               </option>
               ;
@@ -105,6 +109,7 @@ const Index = () => {
               disabled={!departamentoDestino}
               onChange={(e) => setCiudadDestino(e.target.value)}
               name="idCiudadDestino"
+              value={ciudadDestino}
             >
               <option selected disabled>
                 -Seleccionar Ciudad-
@@ -115,11 +120,7 @@ const Index = () => {
                     (ciudad) => ciudad.id_departamento == departamentoDestino
                   )
                   .map((ciudad) => {
-                    return (
-                      <option key={ciudad.id} value={ciudad.id}>
-                        {ciudad.nombre}
-                      </option>
-                    );
+                    return <option value={ciudad.id}>{ciudad.nombre}</option>;
                   })}
             </select>
           </div>

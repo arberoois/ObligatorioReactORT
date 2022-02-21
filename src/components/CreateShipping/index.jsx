@@ -8,7 +8,12 @@ import { useSelector, useDispatch } from "react-redux";
 import * as typesReducer from "../../reducers/reducers";
 import "./index.css";
 const Index = () => {
-  const [envio, setEnvio] = useState({});
+  const [envio, setEnvio] = useState({
+    idCiudadOrigen: "",
+    idCiudadDestino: "",
+    idCategoria: "",
+    peso: "",
+  });
   const [departamentoOrigen, setDepartamentoOrigen] = useState("");
   const [departamentoDestino, setDepartamentoDestino] = useState("");
   const navigate = useNavigate();
@@ -43,7 +48,7 @@ const Index = () => {
     }
 
     if (envio.peso < 0 || envio.peso > 1000) {
-      toast.error("El peso no puede ser negativo ni mayor a 1000kg");
+      toast.error("El peso debe estar entre 0 y 1000 kilogramos");
       return;
     }
 
@@ -71,7 +76,7 @@ const Index = () => {
       const envioCreado = await crearEnvio(apiKey, envioFinal);
       if (envioCreado.codigo === 200) {
         const envioDispatch = {
-          id: envioCreado.id,
+          id: envioCreado.idEnvio,
           ciudad_origen: envioFinal.idCiudadOrigen,
           ciudad_destino: envioFinal.idCiudadDestino,
           peso: envioFinal.peso,
@@ -106,11 +111,11 @@ const Index = () => {
             <select
               name="departamentoOrigen"
               onChange={(e) => setDepartamentoOrigen(e.target.value)}
+              value={departamentoOrigen}
             >
-              <option value="x" disabled selected>
+              <option key={1} value="" disabled selected>
                 -Seleccionar Departamento-
               </option>
-              ;
               {departamentos.map((departamento) => {
                 return (
                   <option key={departamento.id} value={departamento.id}>
@@ -126,8 +131,9 @@ const Index = () => {
               }
               name="idCiudadOrigen"
               disabled={!departamentoOrigen}
+              value={envio.idCiudadOrigen}
             >
-              <option selected disabled>
+              <option key={1} value="" selected disabled>
                 -Seleccionar Ciudad-
               </option>
               {departamentoOrigen &&
@@ -150,8 +156,9 @@ const Index = () => {
                 setEnvio({ ...envio, [e.target.name]: e.target.value })
               }
               name="idCategoria"
+              value={envio.idCategoria}
             >
-              <option selected disabled>
+              <option key={1} value="" selected disabled>
                 Seleccionar...
               </option>
               {categorias.length > 0 &&
@@ -169,8 +176,9 @@ const Index = () => {
             <select
               name="departamentoDestino"
               onChange={(e) => setDepartamentoDestino(e.target.value)}
+              value={departamentoDestino}
             >
-              <option value="x" disabled selected>
+              <option key={1} value="" disabled selected>
                 -Seleccionar Departamento-
               </option>
               ;
@@ -189,8 +197,9 @@ const Index = () => {
                 setEnvio({ ...envio, [e.target.name]: e.target.value })
               }
               name="idCiudadDestino"
+              value={envio.idCiudadDestino}
             >
-              <option selected disabled>
+              <option key={1} value="" selected disabled>
                 -Seleccionar Ciudad-
               </option>
               {departamentoDestino &&
@@ -215,6 +224,7 @@ const Index = () => {
               name="peso"
               type="number"
               placeholder="peso en kilogramos"
+              value={envio.peso}
             />
           </div>
           <button onClick={handleEnvio}>Crear Envio</button>

@@ -72,7 +72,7 @@ const Index = () => {
         </thead>
         <tbody>
           {top5.map((departamento, index) => (
-            <tr key={index}>
+            <tr>
               <td>{departamento.nombre}</td>
               <td>{departamento.cantidad}</td>
             </tr>

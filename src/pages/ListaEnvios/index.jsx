@@ -57,7 +57,7 @@ const Index = () => {
           : null}
       </div>
       <div>
-        <Gasto precioFinal={precioFinal} />
+        <Gasto key={1} precioFinal={precioFinal} />
       </div>
       <Toaster />
     </>
