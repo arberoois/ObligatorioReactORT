@@ -5,7 +5,6 @@ const Index = () => {
   return (
     <div className="shipments">
       <CreateShipping />
-      <hr />
     </div>
   );
 };
